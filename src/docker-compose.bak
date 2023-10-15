@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      SA_PASSWORD: "SqlServerPw!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+  mssqltools:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - sqlserver
+    volumes:
+      - ./db/01-Migracao.sql:/tmp/01-Migracao.sql
+      - ./db/init-db.sh:/tmp/init-db.sh
+    command: /bin/bash ./tmp/init-db.sh
+
+  rentline_api:
+    container_name: rentline_api
+    build:
+      context: .
+      dockerfile: NaN.Rentline.Back.API/Dockerfile
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=postgres;Database=${APP_DB_NAME};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
