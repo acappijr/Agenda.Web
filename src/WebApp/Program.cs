@@ -1,4 +1,4 @@
-using Agenda.Infrastructure.Persistence;
+using Agenda.Infrastructure.DataAccess;
 using Serilog;
 
 namespace Agenda.WebApp;
@@ -15,7 +15,7 @@ static class Program
         builder.Host.UseSerilog((context, configuration) =>
             configuration.ReadFrom.Configuration(context.Configuration));
 
-        builder.Services.AddSingleton(serviceProvider =>
+        builder.Services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>(serviceProvider =>
         {
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 

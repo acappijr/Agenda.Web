@@ -35,7 +35,9 @@ CREATE TABLE dbo.Pessoa(
     Nome VARCHAR(80) NOT NULL,
     Telefone VARCHAR(11),
     Email VARCHAR(255),
-    CepId UNIQUEIDENTIFIER NOT NULL
+    CepId UNIQUEIDENTIFIER NOT NULL,
+    NumeroEndereco VARCHAR(15),
+    ComplementoEndereco VARCHAR(30)
 )
 
 ALTER TABLE dbo.Pessoa ADD CONSTRAINT PK_Pessoa PRIMARY KEY CLUSTERED (Id);

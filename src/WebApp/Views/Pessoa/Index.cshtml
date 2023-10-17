@@ -1,0 +1,122 @@
+﻿@model IEnumerable<Agenda.Domain.Pessoas.Pessoa>
+
+@{
+    ViewData["Title"] = "Agenda de pessoas";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="CriarNovaPessoa"><spam class="fa fa-plus"></spam> Novo</a>
+</p>
+
+@if (Model is null || !Model.Any())
+{
+    <h2>Não há pessoas cadastradas</h2>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Telefone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    Ações
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        R$ @Html.DisplayFor(modelItem => item.Telefone)
+                    </td>
+                    <td>
+                        R$ @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id"><spam class="fa fa-search"></a>
+                        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam></a>
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluirModal" data-id="@item.Id"><spam class="fa fa-trash"></spam></button>
+
+                        @* <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam></a> *@
+                    </td>
+                </tr>
+            }
+
+            <form id="antiForgeryForm" method="post">
+                @Html.AntiForgeryToken()
+            </form>
+        </tbody>
+    </table>
+    <p>A consulta retornou @Model.Count() registro(s)</p>
+}
+
+
+
+<!-- Modal de Exclusão -->
+<div class="modal fade" id="excluirModal" tabindex="-1" role="dialog" aria-labelledby="excluirModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="excluirModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza de que deseja excluir este produto?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmarExclusao">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            var produtoIdParaExcluir; // Variável para armazenar o ID do produto a ser excluído
+
+            var form = $('#antiForgeryForm');
+            var token = form[0][0].value;
+
+            $('#excluirModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                produtoIdParaExcluir = button.data('id'); // Armazene o ID do produto a ser excluído
+            });
+
+            $('#confirmarExclusao').click(function () {
+                // Chame o método de exclusão na sua controller
+                $.ajax({
+                    url: '/meus-produtos/excluir/' + produtoIdParaExcluir,
+                    type: 'POST',
+                    headers: { 'RequestVerificationToken': token },
+                    success: function () {
+                        // Recarregue a página ou faça outra ação após a exclusão bem-sucedida
+                        location.reload();
+                    },
+                    error: function () {
+                        // Trate o erro aqui, se necessário
+                        alert('Erro ao excluir o produto.');
+                    }
+                });
+            });
+        });
+
+    </script>
+}

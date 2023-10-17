@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace Agenda.Infrastructure.Persistence;
-public class SqlConnectionFactory
+namespace Agenda.Infrastructure.DataAccess;
+public sealed class SqlConnectionFactory : ISqlConnectionFactory
 {
     private readonly string _connectionString;
 

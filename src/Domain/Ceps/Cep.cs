@@ -1,5 +1,4 @@
 ﻿namespace Agenda.Domain.Ceps;
-
 public class Cep
 {
     public Guid Id { get; set; }
