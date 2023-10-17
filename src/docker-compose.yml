@@ -1,3 +1,5 @@
+version: '3.4'
+
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -14,3 +16,12 @@ services:
       - ./db/01-Migracao.sql:/tmp/01-Migracao.sql
       - ./db/init-db.sh:/tmp/init-db.sh
     command: /bin/bash ./tmp/init-db.sh
+
+  agenda.webapp:
+    image: ${DOCKER_REGISTRY-}agendawebapp
+    build:
+      context: .
+      dockerfile: WebApp/Dockerfile
+    depends_on:
+      - sqlserver
+

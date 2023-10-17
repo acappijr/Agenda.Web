@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <Title>Agenda WebApp</Title>
+    <Authors>Amauricio Cappi Junior</Authors>
+    <Description>Simples projeto de agenda de telefone e endereços</Description>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>All</AnalysisMode>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982" Condition="$(MSBuildProjectExtension) == '.csproj'">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
