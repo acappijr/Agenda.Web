@@ -19,6 +19,10 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agenda.Application", "Application\Agenda.Application.csproj", "{1A6392F0-43A7-454C-89DF-2F56C47A462E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B3943D90-EC38-4B3F-A2D5-DEF51CEEC316}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agenda.Application.Tests", "Application.Tests\Agenda.Application.Tests.csproj", "{C7B4470A-2951-41AB-884B-ACC13A541391}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,9 +49,16 @@ Global
 		{1A6392F0-43A7-454C-89DF-2F56C47A462E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A6392F0-43A7-454C-89DF-2F56C47A462E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A6392F0-43A7-454C-89DF-2F56C47A462E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B4470A-2951-41AB-884B-ACC13A541391}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7B4470A-2951-41AB-884B-ACC13A541391}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7B4470A-2951-41AB-884B-ACC13A541391}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7B4470A-2951-41AB-884B-ACC13A541391}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C7B4470A-2951-41AB-884B-ACC13A541391} = {B3943D90-EC38-4B3F-A2D5-DEF51CEEC316}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {649B0C68-F0DB-43DF-A656-C288D2F1526D}
