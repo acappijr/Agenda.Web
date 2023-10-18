@@ -1,17 +1,17 @@
-﻿@model IEnumerable<Agenda.Domain.Pessoas.Pessoa>
+﻿@model IEnumerable<Agenda.Domain.Contatos.ContatoViewModel>
 
 @{
-    ViewData["Title"] = "Agenda de pessoas";
+    ViewData["Title"] = "Agenda de contatos";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="CriarNovaPessoa"><spam class="fa fa-plus"></spam> Novo</a>
+    <a class="btn btn-primary" asp-action="Create"><spam class="fa fa-plus"></spam> Novo</a>
 </p>
 
 @if (Model is null || !Model.Any())
 {
-    <h2>Não há pessoas cadastradas</h2>
+    <h2>Não há contatos cadastradas</h2>
 }
 else
 {
@@ -19,7 +19,6 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th></th>
                 <th>
                     @Html.DisplayNameFor(model => model.Nome)
                 </th>
@@ -42,17 +41,15 @@ else
                         @Html.DisplayFor(modelItem => item.Nome)
                     </td>
                     <td>
-                        R$ @Html.DisplayFor(modelItem => item.Telefone)
+                        @Html.DisplayFor(modelItem => item.Telefone)
                     </td>
                     <td>
-                        R$ @Html.DisplayFor(modelItem => item.Email)
+                        @Html.DisplayFor(modelItem => item.Email)
                     </td>
                     <td>
-                        <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id"><spam class="fa fa-search"></a>
-                        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></spam></a>
+                        <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.Id"><spam class="fa fa-search"></spam></a>
+                        <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id"><spam class="fa fa-pencil-alt"></a>
                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluirModal" data-id="@item.Id"><spam class="fa fa-trash"></spam></button>
-
-                        @* <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id"><spam class="fa fa-trash"></spam></a> *@
                     </td>
                 </tr>
             }
@@ -62,10 +59,8 @@ else
             </form>
         </tbody>
     </table>
-    <p>A consulta retornou @Model.Count() registro(s)</p>
+    <p>Foram encontrados @Model.Count() contato(s)</p>
 }
-
-
 
 <!-- Modal de Exclusão -->
 <div class="modal fade" id="excluirModal" tabindex="-1" role="dialog" aria-labelledby="excluirModalLabel" aria-hidden="true">
@@ -76,7 +71,7 @@ else
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <div class="modal-body">
-                Tem certeza de que deseja excluir este produto?
+                Tem certeza de que deseja excluir esta contato?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -90,29 +85,26 @@ else
 
     <script>
         $(document).ready(function () {
-            var produtoIdParaExcluir; // Variável para armazenar o ID do produto a ser excluído
+            var contatoIdParaExcluir;
 
             var form = $('#antiForgeryForm');
             var token = form[0][0].value;
 
             $('#excluirModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
-                produtoIdParaExcluir = button.data('id'); // Armazene o ID do produto a ser excluído
+                contatoIdParaExcluir = button.data('id'); 
             });
 
             $('#confirmarExclusao').click(function () {
-                // Chame o método de exclusão na sua controller
                 $.ajax({
-                    url: '/meus-produtos/excluir/' + produtoIdParaExcluir,
+                    url: '@Url.Action("Delete", "Contato")' + '/' + contatoIdParaExcluir,
                     type: 'POST',
                     headers: { 'RequestVerificationToken': token },
                     success: function () {
-                        // Recarregue a página ou faça outra ação após a exclusão bem-sucedida
                         location.reload();
                     },
                     error: function () {
-                        // Trate o erro aqui, se necessário
-                        alert('Erro ao excluir o produto.');
+                        alert('Erro ao excluir a contato.');
                     }
                 });
             });

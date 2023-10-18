@@ -1,0 +1,113 @@
+﻿@model Agenda.Domain.Contatos.ContatoViewModel
+
+@{
+    ViewData["Title"] = "Cadastro";
+}
+
+<h4>Contato</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form enctype="multipart/form-data" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Telefone" class="control-label"></label>
+                <input asp-for="Telefone" class="form-control" />
+                <span asp-validation-for="Telefone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cep.Codigo" class="control-label"></label>
+                <input asp-for="Cep.Codigo" class="form-control" />
+                <span asp-validation-for="Cep.Codigo" class="text-danger"></span>
+                <button type="button" class="btn btn-info" id="getCep"><spam class="fa fa-search"></spam></button>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cep.Cidade" class="control-label"></label>
+                <input asp-for="Cep.Cidade" readonly class="form-control" />
+                <span asp-validation-for="Cep.Cidade" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cep.Estado" class="control-label"></label>
+                <input asp-for="Cep.Estado" readonly class="form-control" />
+                <span asp-validation-for="Cep.Estado" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cep.Bairro" class="control-label"></label>
+                <input asp-for="Cep.Bairro" readonly class="form-control" />
+                <span asp-validation-for="Cep.Bairro" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cep.Endereco" class="control-label"></label>
+                <input asp-for="Cep.Endereco" readonly class="form-control" />
+                <span asp-validation-for="Cep.Endereco" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NumeroEndereco" class="control-label"></label>
+                <input asp-for="NumeroEndereco" class="form-control" />
+                <span asp-validation-for="NumeroEndereco" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ComplementoEndereco" class="control-label"></label>
+                <input asp-for="ComplementoEndereco" class="form-control" />
+                <span asp-validation-for="ComplementoEndereco" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar para lista</a>
+</div>
+<form id="antiForgeryForm" method="post">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#getCep').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCep", "Cep")',
+                    data: { codigo: $("#Cep_Codigo").val() },
+                    dataType: "json",
+                    headers: { 'RequestVerificationToken': $('#antiForgeryForm')[0][0].value },
+                    success: function (response) {
+                        if (response != null) {
+                            $("#Cep_Cidade").val(response.city);
+                            $("#Cep_Estado").val(response.state);
+                            $("#Cep_Bairro").val(response.district);
+                            $("#Cep_Endereco").val(response.address);
+                        }
+                    },
+                    error: function () {
+                        alert('Erro ao localizar CEP.');
+                    }
+                });
+            });
+        });
+    </script>
+}

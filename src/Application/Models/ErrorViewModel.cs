@@ -1,4 +1,4 @@
-namespace Agenda.WebApp.Models
+namespace Agenda.Application.Models
 {
     public class ErrorViewModel
     {

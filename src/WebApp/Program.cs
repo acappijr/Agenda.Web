@@ -1,4 +1,9 @@
+using Agenda.Application.Services;
+using Agenda.Domain.Ceps;
+using Agenda.Domain.Contatos;
 using Agenda.Infrastructure.DataAccess;
+using Agenda.Infrastructure.Repositories;
+using Agenda.Infrastructure.RestResources;
 using Serilog;
 
 namespace Agenda.WebApp;
@@ -23,6 +28,16 @@ static class Program
                                    throw new InvalidOperationException("The connection string is null");
 
             return new SqlConnectionFactory(connectionString);
+        });
+
+        builder.Services.AddSingleton<ICepRepository, CepRepository>();
+        builder.Services.AddSingleton<IContatoRepository, ContatoRepository>();
+
+        builder.Services.AddSingleton<IContatoService, ContatoService>();
+
+        builder.Services.AddHttpClient<ICepExternalService, CepExternalService>(client =>
+        {
+            client.BaseAddress = new Uri(builder.Configuration["CepBaseUrl"]!);
         });
 
         var app = builder.Build();
