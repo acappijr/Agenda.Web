@@ -10,8 +10,10 @@ public class ContatoViewModel
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     public string Nome { get; set; } = string.Empty;
 
+    [StringLength(11)]
     public string? Telefone { get; set; }
 
+    [DataType(DataType.EmailAddress, ErrorMessage = "E-mail em formato inválido.")]
     public string? Email { get; set; }
 
     public CepViewModel Cep { get; set; } = new();
