@@ -25,4 +25,5 @@ services:
       dockerfile: WebApp/Dockerfile
     depends_on:
       - sqlserver
+      - mssqltools
 
